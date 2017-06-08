@@ -1,9 +1,12 @@
 angular
   .module('CardsAgainstAssembly', [])
   .controller('CardsController', CardsController)
-  .controller('PlayersController', PlayersController);
+  .controller('PlayersController', PlayersController)
+  .directive('card', CardViewDirective)
+  .directive('scores', ScoresDirective);
 
 function CardsController() {
+  console.log("blarg");
   var vm = this;
   vm.questions = [
     {question: "What is Batman's guilty pleasure?"},
@@ -15,6 +18,22 @@ function CardsController() {
   ];
 }
 
+function CardViewDirective() {
+  var directive = {
+    controllerAs: 'vm',
+    controller: CardsController,
+    //'A' == attribute, 'E' == element, 'C' == class, 'M' == comment
+    restrict : 'E',
+    replace : true,
+    templateUrl :  "./templates/_cardView.html",
+    scope : {
+        question: '@'
+    }
+  };
+  return directive;
+}
+
+
 function PlayersController(){
   var vm = this;
   vm.players = [
@@ -25,4 +44,17 @@ function PlayersController(){
     {name: 'Skipper', points: 9},
     {name: 'The Professor', points: 21}
   ];
+}
+
+
+function ScoresDirective(){
+  var directive = {
+    controller: PlayersController,
+    controllerAs: 'vm',
+    //'A' == attribute, 'E' == element, 'C' == class, 'M' == comment
+    restrict : 'E',
+    replace : true,
+    templateUrl :  "./templates/_scoresView.html"
+  };
+  return directive;
 }
